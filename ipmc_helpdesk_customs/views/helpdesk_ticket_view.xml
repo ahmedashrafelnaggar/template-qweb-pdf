@@ -1,0 +1,46 @@
+<odoo>
+    <record id="helpdesk_ticket_view_form" model="ir.ui.view">
+        <field name="name">helpdesk_ticket form</field>
+        <field name="model">helpdesk.ticket</field>
+        <field name="inherit_id" ref="helpdesk.helpdesk_ticket_view_form"/>
+        <field name="arch" type="xml">
+            <field name="partner_id" position="after">
+                <field name="sub_customer" widget="many2many_tags"/>
+            </field>
+            <field name="transaction_date" position="after">
+                <field name="hijri_date"  invisible="1"  />
+            </field>
+
+            <field name="hijri_date" position="after">
+                <field name="hijri_year" invisible="1" />
+            </field>
+
+            <field name="transaction_date" position="attributes">
+                <attribute name="widget">hijri</attribute>
+            </field>
+            <xpath expr="//header" position="inside">
+                <!-- Adding a custom button inside the header -->
+                <button name="action_print_reports"
+                        type="object"
+                        string="Print Report"
+                        class="btn-primary"
+                        icon="fa-check"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="action_print_helpdesk_tickiet_report" model="ir.actions.server">
+        <field name="name">طباعه صادرة أو واردة</field>
+        <field name="model_id" ref="helpdesk.model_helpdesk_ticket"/>
+        <field name="binding_model_id" ref="helpdesk.model_helpdesk_ticket"/>
+        <!-- <field name="binding_view_types">list</field> -->
+        <field name="state">code</field>
+        <field name="code">
+            if records:
+            action = records.action_print_reports()
+        </field>
+
+    </record>
+</odoo>
+
+

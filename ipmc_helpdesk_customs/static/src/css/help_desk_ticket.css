@@ -1,0 +1,20 @@
+html, body {
+    height: 100%; /* Ensure the height is 100% */
+    margin: 0; /* Remove any extra margins */
+    padding: 0;
+}
+
+    .title {
+        text-align: center;
+        padding: 10px;
+
+    }
+
+    .title p {
+        margin-left: 0px; /* Remove all margins */
+        letter-spacing: 1.5px;
+         transform: translate( 80px,210px); /* Move text up on hover */
+        font-size: 23px;
+
+    }
+

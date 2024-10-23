@@ -1,0 +1,195 @@
+<odoo>
+    <report
+            id="outgoing_report_id"
+            model="helpdesk.ticket"
+            string="طباعه صادرة"
+            report_type="qweb-pdf"
+            name="ipmc_helpdesk_customs.report_helpdesk_ticket"
+            file="ipmc_helpdesk_customs.report_helpdesk_ticket"
+            paperformat="ipmc_helpdesk_customs.paperformat_ipmc_report"
+
+    />
+    <template id="report_helpdesk_ticket">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <div class="article o_report_layout_standard" t-att-data-oe-model="doc and doc._name"
+                     t-att-data-oe-id="doc and doc.id">
+                    <link href="/ipmc_helpdesk_customs/static/src/css/help_desk_ticket.css" rel="stylesheet" type="text/less"/>
+                    <div class="collective" style="    display: flex;     align-items: center;  gap: 10px;">
+
+                        <div class="col-2 mb4 ">
+                            <img t-if="doc.company_id.logo" t-att-src="image_data_uri(doc.company_id.logo)"
+                                 style="max-height: 150px;"
+                                 alt="Logo"/>
+                        </div>
+                        <div class="report_title text-left mx-md-5 mx-sm-3 "
+                             style="  font-size: 25px; margin-left: 100px; margin-right: 260px; letter-spacing:1px;     ">
+                            <strong>بيان تسليم معاملة صادرة لعام
+                                <t t-esc="doc.hijri_year"/>
+                            </strong>
+                        </div>
+                    </div>
+                    <div class="page">
+                        <style>
+                            body {
+                            direction: rtl;
+                            }
+                            h1 {
+                            text-align: right;
+                            }
+                            p {
+                            text-align: right;
+                            }
+
+                            table {
+                            border-collapse: collapse;
+                            width: 100%;
+                            border: 1px solid #b3adad;
+                            padding:5px;
+                            }
+
+
+                            table th {
+                            text-align:center;
+                            border: 1px solid #b3adad;
+                            padding:5px;
+                            background:#f0f0f0;
+                            color:#313030;
+
+                            }
+                            table td{
+                            border: 1px solid #b3adad;
+                            text-align:center;
+                            padding:5px;
+                            background:#ffffff;
+                            color:#313030;
+                            }
+                        </style>
+                        <div class="body" style="padding: 20px;">
+                            <br/>
+                            <br/>
+                            <table>
+                                <thead>
+                                    <th colspan="10">بيان المعاملة الصادرة</th>
+                                </thead>
+                                <thead style="text-align:center;">
+                                    <th>الجهة</th>
+                                    <th>رقم المعاملة</th>
+                                    <th>تاريخ المعاملة</th>
+                                    <th>نوع المعاملة</th>
+                                    <th>المشفوعات</th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <t t-esc="doc.partner_id.name"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="doc.inc_serial_number "/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="doc.hijri_date"/>
+                                        </td>
+                                        <td>أصل</td>
+                                        <td>
+                                            <t t-esc="doc.attachment_count "/>
+                                        </td>
+                                    </tr>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <t t-if="doc.sub_customer">
+                                                    <t t-foreach="doc.sub_customer" t-as="o">
+                                                        <t t-esc="o.name "/>
+                                                    </t>
+                                                </t>
+                                            </td>
+                                            <td>
+                                                <t t-foreach="docs" t-as="o">
+                                                    <t t-esc="o.inc_serial_number"/>
+                                                </t>
+                                            </td>
+
+                                            <td>
+                                                <t t-foreach="docs" t-as="o">
+                                                    <t t-esc="o.hijri_date"/>
+                                                </t>
+                                            </td>
+                                            <td>
+                                                <t t-set="values" t-value="['نسخة']"/>
+                                                <t t-foreach="values" t-as="value">
+                                                    <t t-esc="value"/>
+                                                </t>
+                                            </td>
+                                            <td>
+                                                <t t-foreach="docs" t-as="o">
+                                                    <t t-esc="o.attachment_count"/>
+                                                </t>
+                                            </td>
+
+                                        </tr>
+                                    </tbody>
+                                </tbody>
+                            </table>
+                            <br/>
+                            <br/>
+                            <table>
+                                <thead>
+                                    <th colspan="10">بيانات المستلم</th>
+                                </thead>
+                                <thead>
+                                    <th>الجهة</th>
+                                    <th>الاسم</th>
+                                    <th>التاريخ</th>
+                                    <th>التوقيع</th>
+                                    <th>الوقت</th>
+                                    <th>الملاحظات</th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td style="padding:10px;">
+                                            <t t-esc="doc.partner_id.name"/>
+                                        </td>
+                                        <td>
+                                        </td>
+                                        <td>
+                                        </td>
+                                        <td>
+                                        </td>
+                                        <td>
+                                        </td>
+                                        <td>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <t t-if="doc.sub_customer">
+                                                <t t-foreach="doc.sub_customer" t-as="o">
+                                                    <t t-esc="o.name "/>
+                                                </t>
+                                            </t>
+                                        </td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="title" style="text-align: center; padding: 10px;">
+                            <p style="  bottom: 0; text-align: center; margin-right: 140px; margin-left: 0px; transform: translate( 80px,210px); letter-spacing:1.5px; font-size:23px; ">
+                               الاتصالات الإدارية بشركة<strong><t t-esc="user.company_id.name"/></strong>ايران
+
+                            </p>
+                        </div>
+
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>
