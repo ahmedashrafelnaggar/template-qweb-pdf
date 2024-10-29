@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<odoo>
+
+    <record id="helpdesk_ticket_view_form" model="ir.ui.view">
+        <field name="name">helpdesk_ticket form</field>
+        <field name="model">helpdesk.ticket</field>
+        <field name="inherit_id" ref="helpdesk.helpdesk_ticket_view_form"/>
+        <field name="arch" type="xml">
+            <field name="partner_id" position="after">
+                <field name="sub_customer" widget="many2many_tags"/>
+            </field>
+            <field name="transaction_date" position="after">
+                <field name="hijri_date"/>
+            </field>
+
+            <field name="hijri_date" position="after">
+                <field name="hijri_year" />
+            </field>
+
+            <field name="transaction_date" position="replace">
+                <field name="transaction_date"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="action_print_helpdesk_tickiet_report" model="ir.actions.server">
+        <field name="name">طباعه صادرة أو واردة</field>
+        <field name="model_id" ref="helpdesk.model_helpdesk_ticket"/>
+        <field name="binding_model_id" ref="helpdesk.model_helpdesk_ticket"/>
+        <!-- <field name="binding_view_types">list</field> -->
+        <field name="state">code</field>
+        <field name="code">
+            if records:
+            action = records.action_print_reports()
+        </field>
+    </record>
+
+    <record id="ir_cron_convert_transaction_date_to_hijri" model="ir.cron">
+        <field name="name">Convert Dates to Hijri</field>
+        <field name="model_id" ref="ipmc_helpdesk_custom.model_helpdesk_ticket"/>
+        <field name="state">code</field>
+        <field name="code">model.convert_transaction_date_to_hijri()</field>
+        <field name="interval_number">1</field>  <!-- التكرار -->
+        <field name="interval_type">days</field>  <!-- كل يوم -->
+        <field name="numbercall">-1</field>  <!-- عدد مرات التشغيل، -1 يعني إلى ما لا نهاية -->
+        <field name="doall" eval="False"/>  <!-- إذا فات الوقت، لا تعوض -->
+        <field name="active" eval="True"/>  <!-- تفعيل المهمة -->
+    </record>
+</odoo>

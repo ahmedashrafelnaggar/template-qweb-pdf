@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+    <data>
+
+        <record id="view_helpdesk_ticket_wizard" model="ir.ui.view">
+            <field name="name">helpdesk.ticket.wizard.form</field>
+            <field name="model">helpdesk.ticket.wizard</field>
+            <field name="arch" type="xml">
+
+                <header>
+
+                    <field name="stage_id" widget="statusbar" options="{'clickable': True}" class="oe_inline"/>
+
+                </header>
+                <form string="Helpdesk Ticket Wizard">
+                    <group>
+                        <group string="General info">
+                            <field name="outgoing" attrs="{'invisible': [('incoming', '=', True)]}"/>
+                            <field name="incoming" attrs="{'invisible': [('outgoing', '=', True)]}"/>
+                            <field name="date_from"/>
+                            <field name="date_to"/>
+                        </group>
+                        <group string="Additional info">
+                            <field name="partner_ids" widget="many2many_tags"/>
+                            <field name="oolweh_mualamah_priority"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button string="PDF Report" type="object" name="print_pdf" class="oe_highlight"/>
+                        <button string="XLSX Report" type="object" name="print_xlsx" class="oe_highlight"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_helpdesk_ticket_wizard" model="ir.actions.act_window">
+            <field name="name">Helpdesk Ticket Wizard</field>
+            <field name="res_model">helpdesk.ticket.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+
+        <menuitem
+                id="helpdesk_ticket_wizard_menu_item"
+                name="تقرير الوارد والصادر"
+                parent="helpdesk.helpdesk_ticket_report_menu_main"
+                action="action_helpdesk_ticket_wizard"
+        />
+
+    </data>
+</odoo>

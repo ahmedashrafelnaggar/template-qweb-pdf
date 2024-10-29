@@ -1,0 +1,135 @@
+<odoo>
+    <report
+            id="incoming_report_id"
+            model="helpdesk.ticket"
+            string="طباعه واردة"
+            report_type="qweb-pdf"
+            name="ipmc_helpdesk_custom.report_helpdesk_template"
+            file="ipmc_helpdesk_custom.report_helpdesk_template"
+            paperformat="ipmc_helpdesk_custom.paperformat_ipmc_report"
+    />
+    <template id="report_helpdesk_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <div class="article o_report_layout_standard" t-att-data-oe-model="doc and doc._name"
+                     t-att-data-oe-id="doc and doc.id">
+                    <link href="/ipmc_helpdesk_customs/static/src/css/help_desk_ticket.css" rel="stylesheet"
+                          type="text/less"/>
+                    <div class="collective" style="    display: flex;     align-items: center;  gap: 10px;">
+
+                        <div class="col-2 mb4 ">
+                            <img t-if="doc.company_id.logo" t-att-src="image_data_uri(doc.company_id.logo)"
+                                 style="max-height: 150px;"
+                                 alt="Logo"/>
+                        </div>
+                        <div class="report_title text-left mx-md-5 mx-sm-3"
+                             style=" font-size: 26px; margin-left: 100px; margin-right: 260px; letter-spacing:1px; ">
+                            <strong>
+                                سند مراجعة للمعاملات الواردة لعام
+                                <t t-esc="doc.hijri_year"/>
+                            </strong>
+                        </div>
+                    </div>
+                    <div class="page">
+                        <style>
+                            body {
+                            direction: rtl;
+                            }
+                            h1 {
+                            text-align: right;
+                            }
+                            p {
+                            text-align: right;
+                            }
+
+                            table {
+                            border-collapse: collapse;
+                            width: 100%;
+                            border: 1px solid #b3adad;
+                            padding:5px;
+                            }
+
+
+                            table th {
+                            text-align:center;
+                            border: 1px solid #b3adad;
+                            padding:5px;
+                            background:#f0f0f0;
+                            color:#313030;
+
+                            }
+                            table td{
+                            border: 1px solid #b3adad;
+                            text-align:center;
+                            padding:5px;
+                            background:#ffffff;
+                            color:#313030;
+                            }
+                        </style>
+
+
+                        <br/>
+                        <div class="body" style="padding: 20px;">
+                            <br/>
+                            <table>
+                                <thead>
+                                    <th colspan="10">بيانات المعاملة الواردة</th>
+                                </thead>
+                                <thead style="text-align:center;">
+                                    <th>الجهة</th>
+                                    <th>رقم المعاملة</th>
+                                    <th>تاريخ المعاملة</th>
+                                    <th>نوع الإستلام</th>
+                                    <th>المشفوعات</th>
+
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <t t-esc="doc.partner_id.name"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="doc.inc_serial_number "/>
+                                        </td>
+                                        <td style="  letter-spacing: 1px;">
+                                            <t t-esc="doc.hijri_date"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="doc.tag_ids.name "/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="doc.attachment_count "/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <br/>
+                        <br/>
+                        <div class="title" style="text-align: center; padding: 10px;">
+                            <p style="  bottom: 0; text-align: center; margin-right: 450px; margin-left: 0px;  transform: translate( 80px,380px);    letter-spacing:1.5px; font-size:23px; ">
+                                الاتصالات الإدارية بشركة
+                                <strong>
+                                    <t t-esc="user.company_id.name"/>
+                                </strong>
+                                ايران
+
+                            </p>
+                        </div>
+                        <!--                        <footer class="footer" style="text-align: center; padding: 10px;">-->
+                        <!--                            <p style="text-align: center; margin-right: 110px; margin-left: 0px;">-->
+                        <!--                                <strong>الاتصالات الإدارية بشركة-->
+                        <!--                                    <t t-esc="user.company_id.name"/>-->
+                        <!--                                    ايران-->
+                        <!--                                </strong>-->
+                        <!--                            </p>-->
+                        <!--                        </footer>-->
+                    </div>
+                    <br/>
+                </div>
+            </t>
+        </t>
+
+
+    </template>
+</odoo>
